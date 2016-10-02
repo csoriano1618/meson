@@ -307,7 +307,8 @@ class GnomeModule:
                      }
         if kwargs.get('install'):
             scankwargs['install'] = kwargs['install']
-            scankwargs['install_dir'] = os.path.join(state.environment.get_datadir(), 'gir-1.0')
+            scankwargs['install_dir'] = kwargs.get('install_dir_gir', kwargs.get('install_dir',
+                os.path.join(state.environment.get_datadir(), 'gir-1.0')))
         scan_target = GirTarget(girfile, state.subdir, scankwargs)
 
         typelib_output = '%s-%s.typelib' % (ns, nsversion)
@@ -333,7 +334,8 @@ class GnomeModule:
 
         kwargs['output'] = typelib_output
         kwargs['command'] = typelib_cmd
-        kwargs['install_dir'] = os.path.join(state.environment.get_libdir(), 'girepository-1.0')
+        kwargs['install_dir'] = kwargs.get('install_dir_typelib', kwargs.get('install_dir',
+                os.path.join(state.environment.get_libdir(), 'girepository-1.0')))
         typelib_target = TypelibTarget(typelib_output, state.subdir, kwargs)
         return [scan_target, typelib_target]
 
