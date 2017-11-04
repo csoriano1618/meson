@@ -49,6 +49,7 @@ and install it, in order to make other software on the system find the dependenc
 This is an example on how to build a D shared library:
 ```meson
 project('mylib', 'd', version: '1.2.0')
+pkg = import('pkgconfig')
 
 project_soversion = 0
 glib_dep = dependency('glib-2.0')
@@ -61,12 +62,12 @@ my_lib = library('mylib',
     soversion: project_soversion,
     d_module_versions: ['FeatureA', 'featureB']
 )
-pkgc.generate(name: 'mylib',
-              libraries: my_lib,
-              subdirs: 'd/mylib',
-              version: meson.project_version(),
-              description: 'A simple example D library.',
-              d_module_versions: ['FeatureA']
+pkg.generate(name: 'mylib',
+             libraries: my_lib,
+             subdirs: 'd/mylib',
+             version: meson.project_version(),
+             description: 'A simple example D library.',
+             d_module_versions: ['FeatureA']
 )
 install_subdir('src/mylib/', install_dir: 'include/d/mylib/')
 ```
